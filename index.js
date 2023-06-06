@@ -9,29 +9,36 @@ const http = require("http");
  * ruta -> /, /kodemia, /posts
  */
 const server = http.createServer((request, response) => {
-  // Leer la request
-  const { url, method } = request;
-  // 1.er endpoint
-  if(method === "GET" && url === "/hola") {
-    response.write("Estamos en endpoint de get en hola");
-  }
-  // 2do endpoint
-  if(method === "GET" && url === "/adios") {
-    response.write("Estamos en endpoint de get en adios");
-  }
-  // 3er endpoint
-  if(method === "POST" && url === "/hola") {
-    response.write("Estamos CREANDO algo en hola");
-  }
+    // Leer la request
+    const { url, method } = request;
+    const endpoints = {
+        GET: {
+          "/hola": "Mensaje totalmente diferente de los demas",
+          "/adios": "Mensaje totalmente diferente de los demas con ADIOS",
+        },
+        POST: {
+          "/hola": "Rita de post"
+        },
+        PATCH: {
+          "/hola": "Ruta de patch en holaaaa"
+        },
+        DELETE: {
+          "/adios": "Ruta adioooos delete"
+        }
+    };
 
-  // Responder
-  response.end()
-})
+    /**
+     * -> endpoints[method] ->  endpoints[GET]
+     */
+    response.write(endpoints[method][url]);
+    // Responder
+    response.end();
+});
 
 // Prender nuestro servidor
 server.listen(8080, () => {
-  console.log("Nuestro servidor esta prendido!!!");
-})
+    console.log("Nuestro servidor esta prendido!!!");
+});
 
 /**
  * Tarea 1: terminar todos los metodos con la ruta /hola y con la ruta /adios
